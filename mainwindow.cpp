@@ -14,8 +14,8 @@ MainWindow::MainWindow()
 
 	this->trayIcon = new QSystemTrayIcon(this);
 	
-	// QIcon icon = QIcon("C:\\Users\\zhang\\git\\SchoolTimetable\\heart.png");
-	QIcon icon = QIcon("/Users/zhangpe/git/SchoolTimetable/heart.png");
+	QIcon icon = QIcon("C:\\Users\\zhang\\git\\SchoolTimetable\\heart.png");
+	//QIcon icon = QIcon("/Users/zhangpe/git/SchoolTimetable/heart.png");
 	this->trayIcon->setIcon(icon);
 	this->trayIconMenu = new QMenu(this);
 	this->trayIcon->setContextMenu(this->trayIconMenu);
@@ -36,31 +36,33 @@ MainWindow::MainWindow()
 	this->trayIcon->show();
 
 
-	this->expiredTime = QTime(16, 55);
+	this->expiredTime = QTime(20, 9);
 	QDateTime expiredDateTime = QDateTime(
 		QDate::currentDate(),
 		this->expiredTime,
 		QTimeZone::systemTimeZone()
 	);
 	QDateTime currentDateTime = QDateTime::currentDateTime();
+	expiredDateTime = QDateTime::fromMSecsSinceEpoch(currentDateTime.toMSecsSinceEpoch() + 60000);
 
 	qDebug() << expiredDateTime;
 	qDebug() << currentDateTime;
 
-	std::chrono::milliseconds t = expiredDateTime - currentDateTime;
-	qDebug() << t.count() << "seconds";
+	qint64 t = expiredDateTime.toMSecsSinceEpoch() - currentDateTime.toMSecsSinceEpoch();
+	qDebug() << t << "seconds";
 	QTimer::singleShot(t, this, SLOT(timeout()));
 }
 
 void MainWindow::timeout() {
 	this->showFullScreen();
+	QTimer::singleShot(60000, this, &MainWindow::hide);
 	return;
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+void MainWindow::keyPressEvent(QKeyEvent *event) {
 	int key = event->key();
 	if (key == Qt::Key_Escape) {
-		this->showNormal();
+		// this->showNormal();
 		this->hide();
 	}
 }

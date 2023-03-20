@@ -13,7 +13,7 @@ class MainWindow :
 public:
     MainWindow();
 protected:
-    void keyReleaseEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void timeout();
