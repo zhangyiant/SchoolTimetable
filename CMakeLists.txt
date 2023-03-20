@@ -13,6 +13,12 @@ add_executable(SchoolTimetable
     main.cpp
     mainwindow.cpp
     mainwindow.h
+    SchoolClass.cpp
+    SchoolClass.h
+    SchoolDay.cpp
+    SchoolDay.h
+    SchoolTimetable.cpp
+    SchoolTimetable.h
 )
 
 set_target_properties(SchoolTimetable PROPERTIES
