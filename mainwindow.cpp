@@ -47,23 +47,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(this->hideScreenTimer, &QTimer::timeout, this, &MainWindow::hide);
 
 	this->start();
-/*
-	this->expiredTime = QTime(20, 9);
-	QDateTime expiredDateTime = QDateTime(
-		QDate::currentDate(),
-		this->expiredTime,
-		QTimeZone::systemTimeZone()
-	);
-	QDateTime currentDateTime = QDateTime::currentDateTime();
-	expiredDateTime = QDateTime::fromMSecsSinceEpoch(currentDateTime.toMSecsSinceEpoch() + 60000);
 
-	qDebug() << expiredDateTime;
-	qDebug() << currentDateTime;
-
-	qint64 t = expiredDateTime.toMSecsSinceEpoch() - currentDateTime.toMSecsSinceEpoch();
-	qDebug() << t << "seconds";
-	QTimer::singleShot(t, this, SLOT(timeout()));
-*/
 }
 
 
