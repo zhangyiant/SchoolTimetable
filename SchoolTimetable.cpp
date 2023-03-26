@@ -41,6 +41,12 @@ void initDefaultSchoolTimetable() {
 	schoolClass.stopTime = QTime(15, 30);
 	classList.push_back(schoolClass);
 
+	defaultSchoolTimetable[Qt::DayOfWeek::Monday] = classList;;
+	defaultSchoolTimetable[Qt::DayOfWeek::Tuesday] = classList;;
+	defaultSchoolTimetable[Qt::DayOfWeek::Wednesday] = classList;;
+	defaultSchoolTimetable[Qt::DayOfWeek::Thursday] = classList;;
+	defaultSchoolTimetable[Qt::DayOfWeek::Friday] = classList;;
+	defaultSchoolTimetable[Qt::DayOfWeek::Saturday] = classList;;
 	defaultSchoolTimetable[Qt::DayOfWeek::Sunday] = classList;;
 	return;
 }
