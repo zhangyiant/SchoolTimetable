@@ -25,3 +25,8 @@ qt_add_resources(SchoolTimetable imageresources
 )
 
 target_link_libraries(SchoolTimetable PRIVATE Qt::Core Qt::Widgets)
+
+set_directory_properties(
+    PROPERTIES
+        VS_STARTUP_PROJECT SchoolTimetable
+)
