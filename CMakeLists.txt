@@ -22,4 +22,9 @@ qt_add_executable(SchoolTimetable
     SchoolTimetable.h
 )
 
+qt_add_resources(SchoolTimetable imageresources
+    PREFIX "/images"
+    FILES heart.png
+)
+
 target_link_libraries(SchoolTimetable PRIVATE Qt::Core Qt::Widgets)

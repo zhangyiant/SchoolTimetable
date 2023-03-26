@@ -14,7 +14,7 @@ MainWindow::MainWindow()
 
 	this->trayIcon = new QSystemTrayIcon(this);
 	
-	QIcon icon = QIcon("C:\\Users\\zhang\\git\\SchoolTimetable\\heart.png");
+	QIcon icon = QIcon(":/images/heart.png");
 	//QIcon icon = QIcon("/Users/zhangpe/git/SchoolTimetable/heart.png");
 	this->trayIcon->setIcon(icon);
 	this->trayIconMenu = new QMenu(this);
