@@ -2,16 +2,19 @@
 
 #include <map>
 #include <list>
-#include <Qt>
-#include "SchoolClass.h"
 
+#include <Qt>
 #include <QTime>
 #include <QString>
 
-class SchoolClass {
+struct SchoolClass {
     QString className;
     QTime startTime;
     QTime stopTime;
 };
 
-typedef std::map<Qt::DayOfWeek, std::list<SchoolClass>> SchoolTimetable;
+using SchoolTimetable = std::map<Qt::DayOfWeek, std::list<SchoolClass>>;
+
+extern SchoolTimetable defaultSchoolTimetable;
+
+void initDefaultSchoolTimetable();
