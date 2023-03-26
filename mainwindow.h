@@ -1,17 +1,25 @@
-#pragma once
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
 #include <QDialog>
 #include <QSystemTrayIcon>
 #include <QAction>
 #include <QMenu>
 #include <QTime>
 #include <QTimer>
+#include <QMainWindow>
+
+namespace Ui {
+    class MainWindow;
+}
 
 class MainWindow :
-    public QDialog
+    public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow();
+    explicit MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 private slots:
@@ -23,5 +31,8 @@ private:
     QMenu* trayIconMenu;
     QTime expiredTime;
     QTimer* timer;
+private:
+    Ui::MainWindow* ui;
 };
 
+#endif // MAINWINDOW_H

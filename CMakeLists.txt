@@ -14,10 +14,7 @@ qt_add_executable(SchoolTimetable
     main.cpp
     mainwindow.cpp
     mainwindow.h
-    SchoolClass.cpp
-    SchoolClass.h
-    SchoolDay.cpp
-    SchoolDay.h
+    mainwindow.ui
     SchoolTimetable.cpp
     SchoolTimetable.h
 )

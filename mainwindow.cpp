@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include <QIcon>
 #include <QKeyEvent>
 #include <QDebug>
@@ -8,9 +9,11 @@
 
 #include <chrono>
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(QWidget* parent) :
+	QMainWindow(parent),
+	ui(new Ui::MainWindow)
 {
-	qDebug() << QSystemTrayIcon::isSystemTrayAvailable();
+	ui->setupUi(this);
 
 	this->trayIcon = new QSystemTrayIcon(this);
 	
@@ -51,6 +54,12 @@ MainWindow::MainWindow()
 	qint64 t = expiredDateTime.toMSecsSinceEpoch() - currentDateTime.toMSecsSinceEpoch();
 	qDebug() << t << "seconds";
 	QTimer::singleShot(t, this, SLOT(timeout()));
+}
+
+
+MainWindow::~MainWindow()
+{
+	delete ui;
 }
 
 void MainWindow::timeout() {
