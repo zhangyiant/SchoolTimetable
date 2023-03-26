@@ -8,6 +8,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QMainWindow>
+#include "SchoolTimetable.h"
 
 namespace Ui {
     class MainWindow;

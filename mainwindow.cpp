@@ -38,7 +38,14 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::iconActivated);
 	this->trayIcon->show();
 
-
+	SchoolClass nextClass = getNextSchoolClass();
+	if (nextClass.className.isNull()) {
+		this->ui->classNameLabel->setText("今天没有课程了");
+	}
+	else {
+		this->ui->classNameLabel->setText(nextClass.className);
+	}
+/*
 	this->expiredTime = QTime(20, 9);
 	QDateTime expiredDateTime = QDateTime(
 		QDate::currentDate(),
@@ -54,6 +61,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	qint64 t = expiredDateTime.toMSecsSinceEpoch() - currentDateTime.toMSecsSinceEpoch();
 	qDebug() << t << "seconds";
 	QTimer::singleShot(t, this, SLOT(timeout()));
+*/
 }
 
 

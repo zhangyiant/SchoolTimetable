@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>false</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,14 +16,51 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>110</y>
+      <width>479</width>
+      <height>62</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="classNameLabelTitle">
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>课程名称：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="classNameLabel">
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>17</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

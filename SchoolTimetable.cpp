@@ -1,4 +1,8 @@
 #include "SchoolTimetable.h"
+#include <list>
+#include <Qt>
+#include <QTime>
+#include <QDate>
 
 SchoolTimetable defaultSchoolTimetable;
 
@@ -41,6 +45,11 @@ void initDefaultSchoolTimetable() {
 	schoolClass.stopTime = QTime(15, 30);
 	classList.push_back(schoolClass);
 
+	schoolClass.className = QString("爸爸");
+	schoolClass.startTime = QTime::currentTime().addSecs(60);
+	schoolClass.stopTime = QTime::currentTime().addSecs(60 * 2);
+	classList.push_back(schoolClass);
+
 	defaultSchoolTimetable[Qt::DayOfWeek::Monday] = classList;;
 	defaultSchoolTimetable[Qt::DayOfWeek::Tuesday] = classList;;
 	defaultSchoolTimetable[Qt::DayOfWeek::Wednesday] = classList;;
@@ -49,4 +58,25 @@ void initDefaultSchoolTimetable() {
 	defaultSchoolTimetable[Qt::DayOfWeek::Saturday] = classList;;
 	defaultSchoolTimetable[Qt::DayOfWeek::Sunday] = classList;;
 	return;
+}
+
+SchoolClass getNextSchoolClass()
+{
+	QDate currentDate = QDate::currentDate();
+	Qt::DayOfWeek currentDayOfWeek = (Qt::DayOfWeek)currentDate.dayOfWeek();
+
+	qDebug() << currentDayOfWeek;
+
+	std::list<SchoolClass> classList = defaultSchoolTimetable[currentDayOfWeek];
+
+	QTime currentTime = QTime::currentTime();
+	bool found = false;
+	SchoolClass nextClass;
+	for (SchoolClass schoolClass : classList) {
+		if (currentTime < schoolClass.startTime) {
+			nextClass = schoolClass;
+		}
+	}
+
+	return nextClass;
 }

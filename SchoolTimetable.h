@@ -18,3 +18,5 @@ using SchoolTimetable = std::map<Qt::DayOfWeek, std::list<SchoolClass>>;
 extern SchoolTimetable defaultSchoolTimetable;
 
 void initDefaultSchoolTimetable();
+
+SchoolClass getNextSchoolClass();
