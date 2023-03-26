@@ -27,6 +27,7 @@ private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void timeout();
     void quit();
+    void updateRemainingTime();
 private:
     QSystemTrayIcon* trayIcon;
     QAction* min;
@@ -34,6 +35,7 @@ private:
     QTime expiredTime;
     QTimer* nextClassTimer;
     QTimer* hideScreenTimer;
+    QTimer* updateRemainingTimeTimer;
     SchoolClass nextClass;
     void start();
     void stop();

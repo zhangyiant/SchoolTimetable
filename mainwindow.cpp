@@ -45,6 +45,9 @@ MainWindow::MainWindow(QWidget* parent) :
 	this->hideScreenTimer = new QTimer(this);
 	this->hideScreenTimer->setSingleShot(true);
 	connect(this->hideScreenTimer, &QTimer::timeout, this, &MainWindow::hide);
+	this->updateRemainingTimeTimer = new QTimer(this);
+	connect(this->updateRemainingTimeTimer, &QTimer::timeout, this, &MainWindow::updateRemainingTime);
+	this->updateRemainingTimeTimer->setInterval(1000);
 
 	this->start();
 
@@ -57,7 +60,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::timeout() {
-	this->showFullScreen();
+	this->showNormal();
 	qDebug() << this->nextClassTimer->isActive();
 
 	QTime currentTime = QTime::currentTime();
@@ -80,6 +83,21 @@ void MainWindow::quit()
 	this->close();
 }
 
+void MainWindow::updateRemainingTime()
+{
+	if (this->nextClassTimer->isActive()) {
+		int msecsRemained = this->nextClassTimer->remainingTime();
+		int secsRemained = msecsRemained / 1000;
+		this->ui->remainingTimeLabel->setText(QString("还剩下") + QString::number(secsRemained) + QString("秒显示下节课课程窗口"));
+	}
+	else if (this->hideScreenTimer->isActive()) {
+		int msecsRemained = this->hideScreenTimer->remainingTime();
+		int secsRemained = msecsRemained / 1000;
+		this->ui->remainingTimeLabel->setText(QString("还剩下") + QString::number(secsRemained) + QString("秒隐藏窗口"));
+	}
+	return;
+}
+
 void MainWindow::start()
 {
 	this->nextClass = getNextSchoolClass();
@@ -100,6 +118,8 @@ void MainWindow::start()
 	this->nextClassTimer->setInterval(msecsToPromptTime);
 
 	this->nextClassTimer->start();
+	
+	this->updateRemainingTimeTimer->start();
 
 }
 
@@ -107,6 +127,7 @@ void MainWindow::stop()
 {
 	this->nextClassTimer->stop();
 	this->hideScreenTimer->stop();
+	this->updateRemainingTimeTimer->stop();
 	return;
 }
 
