@@ -26,12 +26,17 @@ protected:
 private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void timeout();
+    void quit();
 private:
     QSystemTrayIcon* trayIcon;
     QAction* min;
     QMenu* trayIconMenu;
     QTime expiredTime;
-    QTimer* timer;
+    QTimer* nextClassTimer;
+    QTimer* hideScreenTimer;
+    SchoolClass nextClass;
+    void start();
+    void stop();
 private:
     Ui::MainWindow* ui;
 };

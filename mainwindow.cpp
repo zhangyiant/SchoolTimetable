@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QDateTime>
+#include <QTime>
 #include <QTimeZone>
 #include <QDate>
 
@@ -34,17 +35,18 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(hideAction, &QAction::triggered, this, &MainWindow::hide);
 	connect(normalAction, &QAction::triggered, this, &MainWindow::showNormal);
 	connect(fullScreenAction, &QAction::triggered, this, &MainWindow::showFullScreen);
-	connect(quitAction, &QAction::triggered, this, &MainWindow::close);
+	connect(quitAction, &QAction::triggered, this, &MainWindow::quit);
 	connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::iconActivated);
 	this->trayIcon->show();
 
-	SchoolClass nextClass = getNextSchoolClass();
-	if (nextClass.className.isNull()) {
-		this->ui->classNameLabel->setText("今天没有课程了");
-	}
-	else {
-		this->ui->classNameLabel->setText(nextClass.className);
-	}
+	this->nextClassTimer = new QTimer(this);
+	this->nextClassTimer->setSingleShot(true);
+	connect(this->nextClassTimer, &QTimer::timeout, this, &MainWindow::timeout);
+	this->hideScreenTimer = new QTimer(this);
+	this->hideScreenTimer->setSingleShot(true);
+	connect(this->hideScreenTimer, &QTimer::timeout, this, &MainWindow::hide);
+
+	this->start();
 /*
 	this->expiredTime = QTime(20, 9);
 	QDateTime expiredDateTime = QDateTime(
@@ -72,7 +74,55 @@ MainWindow::~MainWindow()
 
 void MainWindow::timeout() {
 	this->showFullScreen();
-	QTimer::singleShot(60000, this, &MainWindow::hide);
+	qDebug() << this->nextClassTimer->isActive();
+
+	QTime currentTime = QTime::currentTime();
+	QTime promptTime = this->nextClass.startTime;
+
+	int msecsToPromptTime = currentTime.msecsTo(promptTime);
+
+	this->hideScreenTimer->setInterval(msecsToPromptTime);
+
+	this->hideScreenTimer->start();
+
+	return;
+}
+
+void MainWindow::quit()
+{
+	if (!this->isVisible()) {
+		this->showNormal();
+	}
+	this->close();
+}
+
+void MainWindow::start()
+{
+	this->nextClass = getNextSchoolClass();
+	if (nextClass.className.isNull()) {
+		this->ui->classNameLabel->setText("今天没有课程了");
+		return;
+	}
+
+	this->ui->classNameLabel->setText(
+		this->nextClass.className
+	);
+
+	QTime currentTime = QTime::currentTime();
+	QTime promptTime = this->nextClass.startTime.addSecs(-30);
+
+	int msecsToPromptTime = currentTime.msecsTo(promptTime);
+	
+	this->nextClassTimer->setInterval(msecsToPromptTime);
+
+	this->nextClassTimer->start();
+
+}
+
+void MainWindow::stop()
+{
+	this->nextClassTimer->stop();
+	this->hideScreenTimer->stop();
 	return;
 }
 
@@ -90,6 +140,7 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     case QSystemTrayIcon::Trigger:
     case QSystemTrayIcon::DoubleClick:
         break;
+		[[fallthrough]];
     case QSystemTrayIcon::MiddleClick:
         break;
     default:
